@@ -3,12 +3,12 @@ import textstat
 import numpy as np
 
 
-pipelines = ["atomic", "semantic", "vanilla"]
-models = ["gemma-9b", "gemma-27b", "llama-8b", "llama-70b", "yi-9b"]
+pipelines = ["vanilla"]
+models = ["qwen-0.5b"]
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"../QG/{model_name}/{pipeline}_{model_name}.jsonl"
+        jsonl_file = f"../../QG/{model_name}/{pipeline}_{model_name}.jsonl"
         print("File: ", jsonl_file)
 
         total_entries = 0
@@ -34,6 +34,9 @@ for pipeline in pipelines:
 
                 total_entries += 1
                 instance_scores = []
+
+                # Ensure all questions are strings
+                questions = [str(q) if not isinstance(q, str) else q for q in questions]
 
                 for question in questions:
                     score = textstat.flesch_reading_ease(question)  # Flesch Reading Ease Score

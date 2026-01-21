@@ -7,8 +7,8 @@ from sentence_transformers import SentenceTransformer, util
 import bert_score
 
 
-pipelines = ["atomic", "semantic", "vanilla"]
-models = ["gemma-9b", "gemma-27b", "llama-8b", "llama-70b", "yi-9b"]
+pipelines = ["vanilla"]
+models = ["qwen-0.5b"]
 
 
 sbert_model = SentenceTransformer("all-mpnet-base-v2")
@@ -18,7 +18,7 @@ sbert_model.to(device)
 
 for pipeline in pipelines:
     for model in models:
-        jsonl_file = f"../QG/{model}/{pipeline}_{model}.jsonl"
+        jsonl_file = f"../../QG/{model}/{pipeline}_{model}.jsonl"
         output_file = f"diversity/{pipeline}_{model}.jsonl"
 
         if not os.path.exists(jsonl_file):
@@ -50,6 +50,9 @@ for pipeline in pipelines:
 
                     if len(questions) < 2:
                         continue
+
+                    # Ensure all questions are strings
+                    questions = [str(q) if not isinstance(q, str) else q for q in questions]
 
                     question_pairs = list(itertools.combinations(questions, 2))
                     embeddings = sbert_model.encode(questions, convert_to_tensor=True)

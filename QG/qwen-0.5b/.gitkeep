@@ -1,0 +1,2 @@
+# Output directory for Qwen-0.5B Question Generation results
+# Generated files will be saved here with naming pattern: {variant}_qwen-0.5b.jsonl

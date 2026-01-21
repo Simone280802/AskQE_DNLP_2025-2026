@@ -3,12 +3,15 @@ import os
 import torch
 from bert_score import score
 
-
+'''
 languages = ["es", "fr", "hi", "tl", "zh"]
 perturbations = ["synonym", "word_order", "spelling", "expansion_noimpact", 
                  "intensifier", "expansion_impact", "omission", "alteration"]
+'''
+languages = ["es"]
+perturbations = ["alteration"]
 
-base_path = "../backtranslation"
+base_path = r"C:\Users\andos\DNLP-Project\askqe\backtranslation"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 

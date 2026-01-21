@@ -20,12 +20,15 @@ parser.add_argument("--model", type=str)
 parser.add_argument("--output_file", type=str)
 args = parser.parse_args()
 
-
+'''
 languages = ["es", "fr", "hi", "tl", "zh"]
 pipelines = ["vanilla", "semantic", "atomic"]
 perturbations = ["synonym", "word_order", "spelling", "expansion_noimpact",
                  "intensifier", "expansion_impact", "omission", "alteration"]
-
+'''
+languages = ["es"]
+pipelines = ["vanilla"]
+perturbations = ["alteration"]
 
 tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')
 model = AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')

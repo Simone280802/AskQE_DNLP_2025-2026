@@ -1,12 +1,12 @@
 import json
 
 
-pipelines = ["atomic", "semantic", "vanilla"]
-models = ["gemma-9b", "gemma-27b", "llama-8b", "llama-70b", "yi-9b"]
+pipelines = ["vanilla"]
+models = ["qwen-0.5b"]
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"../QG/{model_name}/{pipeline}_{model_name}.jsonl"
+        jsonl_file = f"../../QG/{model_name}/{pipeline}_{model_name}.jsonl"
         print("File: ", jsonl_file)
 
         total_entries = 0
@@ -26,7 +26,15 @@ for pipeline in pipelines:
                     except (json.JSONDecodeError, ValueError) as e:
                         continue
 
-                unique_questions = set(questions)
+                # Convert elements to hashable types (tuple for lists, or str) to avoid TypeError
+                hashable_questions = []
+                for q in questions:
+                    if isinstance(q, list):
+                        hashable_questions.append(tuple(q))
+                    else:
+                        hashable_questions.append(q)
+                
+                unique_questions = set(hashable_questions)
                 if len(unique_questions) < len(questions):
                     duplicate_questions_count += 1
 

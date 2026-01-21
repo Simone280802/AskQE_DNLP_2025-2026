@@ -9,12 +9,12 @@ tokenizer = LongformerTokenizer.from_pretrained(model_name, cache_dir="")
 model = LongformerForSequenceClassification.from_pretrained(model_name, cache_dir="")
 
 
-pipelines = ["atomic", "semantic", "vanilla"]
-models = ["gemma-9b", "gemma-27b", "llama-8b", "llama-70b", "yi-9b"]
+pipelines = ["vanilla"]
+models = ["qwen-0.5b"]
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"../QG/{model_name}/{pipeline}_{model_name}.jsonl"
+        jsonl_file = f"../../QG/{model_name}/{pipeline}_{model_name}.jsonl"
         output_file = f"answerability/{pipeline}_{model_name}.jsonl"
 
         print(f"\nProcessing File: {jsonl_file}")
@@ -45,6 +45,9 @@ for pipeline in pipelines:
 
                     instance_scores = []
                     question_scores = []
+
+                    # Ensure all questions are strings
+                    questions = [str(q) if not isinstance(q, str) else q for q in questions]
 
                     for question in questions:
                         input_text = question + ' ' + tokenizer.sep_token + ' ' + context

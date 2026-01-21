@@ -3,20 +3,25 @@ import json
 
 
 def main():
+    # XCOMET-XL model (requires huggingface-cli login)
     model_path = download_model("Unbabel/XCOMET-XL")
     model = load_from_checkpoint(model_path)
 
+    '''
     languages = ["es", "fr", "hi", "tl", "zh"]
     perturbations = ["synonym", "word_order", "spelling", "expansion_noimpact",
                     "intensifier", "expansion_impact", "omission", "alteration"]
-    
+
+    '''
+    languages = ["es"]
+    perturbations = ["alteration"]
     for language in languages:
         for perturbation in perturbations:
             print("Language: ", language)
             print("Perturbation: ", perturbation)
 
-            reference_file = f"../QA/llama-70b/en-atomic.jsonl"
-            prediction_file = f"../QA/llama-70b/{language}-atomic-{perturbation}.jsonl"
+            reference_file = f"C:\\Users\\andos\\DNLP-Project\\askqe\\QA\\qwen-0.5b\\en-vanilla.jsonl"
+            prediction_file = f"C:\\Users\\andos\\DNLP-Project\\askqe\\QA\\qwen-0.5b\\{language}-vanilla-{perturbation}.jsonl"
             output_file = f"en-{language}/{perturbation}.jsonl"
 
             try:
@@ -53,7 +58,7 @@ def main():
                                 if pred.strip() == "" or ref.strip() == "":
                                     continue
 
-                                datas.append({"src": ref, "mt": pred})
+                                datas.append({"src": ref, "mt": pred, "ref": ref})
                                 model_output = model.predict(datas, batch_size=1, gpus=1)
 
                                 pred_data["xcomet_annotation"] = {

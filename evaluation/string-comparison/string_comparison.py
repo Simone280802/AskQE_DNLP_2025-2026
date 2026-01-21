@@ -4,17 +4,20 @@ from utils import compare_answers
 
 nltk.download("punkt")
 
-
+'''
 languages = ["es", "fr", "hi", "tl", "zh"]
 pipelines = ["vanilla", "semantic", "atomic"]
 perturbations = ["alteration", "expansion_impact", "expansion_noimpact", "intensifier", "omission", "spelling", "synonym", "word_order"]
-
+'''
+languages = ["es"]
+pipelines = ["vanilla"]
+perturbations = ["alteration"]
 
 for language in languages:
     for pipeline in pipelines:
         for perturbation in perturbations:
-            predicted_file = f"../../QA/llama-70b/{language}-{pipeline}-{perturbation}.jsonl"
-            reference_file = f"../../QA/llama-70b/en-{pipeline}.jsonl"
+            predicted_file = f"../../QA/qwen-0.5b/{language}-{pipeline}-{perturbation}.jsonl"
+            reference_file = f"../../QA/qwen-0.5b/en-{pipeline}.jsonl"
 
             results_list = []
             try:
@@ -46,6 +49,13 @@ for language in languages:
 
                             row_scores = []
                             for pred, ref in zip(predicted_answers, reference_answers):
+                                # Convert non-string values to strings
+                                if not isinstance(pred, str):
+                                    pred = str(pred) if pred is not None else ""
+                                if not isinstance(ref, str):
+                                    ref = str(ref) if ref is not None else ""
+                                if not pred.strip() or not ref.strip():
+                                    continue
                                 f1, EM, chrf, bleu = compare_answers(pred, ref)
                                 row_scores.append({
                                     "f1": f1,
