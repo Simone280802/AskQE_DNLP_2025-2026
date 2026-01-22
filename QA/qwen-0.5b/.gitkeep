@@ -1,2 +1,0 @@
-# Output directory for Qwen-0.5B Question Answering results
-# Generated files will be saved here with naming pattern: {lang}-{variant}-{perturbation}.jsonl

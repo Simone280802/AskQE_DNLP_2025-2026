@@ -1,14 +1,20 @@
 import json
+import os
 import textstat
 import numpy as np
 
 
-pipelines = ["vanilla"]
-models = ["qwen-0.5b"]
+pipelines = ["atomic", "semantic", "vanilla"]
+models = ["qwen-3b"]
+
+# Use relative path from script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+results_dir = os.path.join(project_root, "results Qwen3B baseline")
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"../../QG/{model_name}/{pipeline}_{model_name}.jsonl"
+        jsonl_file = os.path.join(results_dir, "QG", f"{pipeline}_{model_name}.jsonl")
         print("File: ", jsonl_file)
 
         total_entries = 0

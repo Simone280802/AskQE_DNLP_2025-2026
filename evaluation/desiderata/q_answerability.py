@@ -1,21 +1,27 @@
 import torch
 import json
+import os
 import numpy as np
 from transformers import LongformerTokenizer, LongformerForSequenceClassification
 
 
 model_name = "potsawee/longformer-large-4096-answerable-squad2"
-tokenizer = LongformerTokenizer.from_pretrained(model_name, cache_dir="")
-model = LongformerForSequenceClassification.from_pretrained(model_name, cache_dir="")
+tokenizer = LongformerTokenizer.from_pretrained(model_name)
+model = LongformerForSequenceClassification.from_pretrained(model_name)
 
 
-pipelines = ["vanilla"]
-models = ["qwen-0.5b"]
+pipelines = ["atomic", "semantic", "vanilla"]
+models = ["qwen-3b"]
+
+# Use relative path from script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+results_dir = os.path.join(project_root, "results Qwen3B baseline")
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"../../QG/{model_name}/{pipeline}_{model_name}.jsonl"
-        output_file = f"answerability/{pipeline}_{model_name}.jsonl"
+        jsonl_file = os.path.join(results_dir, "QG", f"{pipeline}_{model_name}.jsonl")
+        output_file = os.path.join(script_dir, "answerability", f"{pipeline}_{model_name}.jsonl")
 
         print(f"\nProcessing File: {jsonl_file}")
 

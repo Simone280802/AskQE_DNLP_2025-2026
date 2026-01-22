@@ -1,23 +1,25 @@
 import json
 import nltk
+import os
 from utils import compare_answers
 
 nltk.download("punkt")
 
-'''
 languages = ["es", "fr", "hi", "tl", "zh"]
-pipelines = ["vanilla", "semantic", "atomic"]
-perturbations = ["alteration", "expansion_impact", "expansion_noimpact", "intensifier", "omission", "spelling", "synonym", "word_order"]
-'''
-languages = ["es"]
-pipelines = ["vanilla"]
-perturbations = ["alteration"]
+pipelines = ["atomic", "semantic", "vanilla"]
+perturbations = ["synonym", "word_order", "spelling", "expansion_noimpact",
+                 "intensifier", "expansion_impact", "omission", "alteration"]
+
+# Use relative path from script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+results_dir = os.path.join(project_root, "results Qwen3B baseline")
 
 for language in languages:
     for pipeline in pipelines:
         for perturbation in perturbations:
-            predicted_file = f"../../QA/qwen-0.5b/{language}-{pipeline}-{perturbation}.jsonl"
-            reference_file = f"../../QA/qwen-0.5b/en-{pipeline}.jsonl"
+            predicted_file = os.path.join(results_dir, "QA", "bt", f"{language}-{pipeline}-{perturbation}.jsonl")
+            reference_file = os.path.join(results_dir, "QA", "source", f"en-{pipeline}.jsonl")
 
             results_list = []
             try:

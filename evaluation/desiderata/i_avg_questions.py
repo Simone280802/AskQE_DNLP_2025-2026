@@ -1,16 +1,17 @@
 import json
+import os
 
-'''
 pipelines = ["atomic", "semantic", "vanilla"]
-models = ["gemma-9b", "gemma-27b", "llama-8b", "llama-70b", "yi-9b"]
-'''
+models = ["qwen-3b"]
 
-pipelines = ["vanilla"]
-models = ["qwen-0.5b"]
+# Use relative path from script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+results_dir = os.path.join(project_root, "results Qwen3B baseline")
 
 for pipeline in pipelines:
     for model_name in models:
-        jsonl_file = f"C:\\Users\\andos\\DNLP-Project\\askqe\\QG\\{model_name}\\{pipeline}_{model_name}.jsonl"
+        jsonl_file = os.path.join(results_dir, "QG", f"{pipeline}_{model_name}.jsonl")
         print("File: ", jsonl_file)
 
         total_entries = 0

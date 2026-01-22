@@ -7,9 +7,13 @@ from sentence_transformers import SentenceTransformer, util
 import bert_score
 
 
-pipelines = ["vanilla"]
-models = ["qwen-0.5b"]
+pipelines = ["atomic", "semantic", "vanilla"]
+models = ["qwen-3b"]
 
+# Use relative path from script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+results_dir = os.path.join(project_root, "results Qwen3B baseline")
 
 sbert_model = SentenceTransformer("all-mpnet-base-v2")
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -18,8 +22,8 @@ sbert_model.to(device)
 
 for pipeline in pipelines:
     for model in models:
-        jsonl_file = f"../../QG/{model}/{pipeline}_{model}.jsonl"
-        output_file = f"diversity/{pipeline}_{model}.jsonl"
+        jsonl_file = os.path.join(results_dir, "QG", f"{pipeline}_{model}.jsonl")
+        output_file = os.path.join(script_dir, "diversity", f"{pipeline}_{model}.jsonl")
 
         if not os.path.exists(jsonl_file):
             print(f"Skipping missing file: {jsonl_file}")
