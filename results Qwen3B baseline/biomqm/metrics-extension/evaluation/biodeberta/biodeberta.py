@@ -15,7 +15,7 @@ from transformers import AutoTokenizer, AutoModel
 # ========================================
 # MODEL SETUP
 # ========================================
-MODEL_NAME = 'pritamdeka/S-BioDeBERTa-snli-mnli'
+MODEL_NAME = 'pritamdeka/S-BioBert-snli-multinli-stsb'
 tokenizer = None
 model = None
 
