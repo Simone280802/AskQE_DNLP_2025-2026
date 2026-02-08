@@ -17,7 +17,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 # ========================================
 # MODEL SETUP
 # ========================================
-MODEL_NAME = 'microsoft/deberta-v3-large-mnli'
+MODEL_NAME = 'facebook/bart-large-mnli'
 LABELS = ['contradiction', 'neutral', 'entailment']  # Model's label order
 tokenizer = None
 model = None

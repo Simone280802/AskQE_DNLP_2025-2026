@@ -15,7 +15,7 @@ from transformers import AutoTokenizer, AutoModel
 # ========================================
 # MODEL SETUP
 # ========================================
-MODEL_NAME = 'pritamdeka/S-BioBert-snli-multinli-stsb'
+MODEL_NAME = 'NeuML/pubmedbert-base-embeddings'
 tokenizer = None
 model = None
 
