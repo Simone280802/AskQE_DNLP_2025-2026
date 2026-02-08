@@ -52,7 +52,7 @@ def generate_single_answer(tokenizer, model, device, sentence, question, strateg
     with torch.no_grad():
         outputs = model.generate(
             input_ids,
-            max_new_tokens=256,
+            max_new_tokens=50,
             temperature=0.1,
             top_p=0.9,
             repetition_penalty=1.1,

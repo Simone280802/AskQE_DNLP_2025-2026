@@ -94,7 +94,7 @@ def main():
                 len_p = len(pred_list)
                 len_r = len(ref_list)
                 
-                if len_r == 0: continue
+                if len_r == 0 or len_p == 0: continue
                 
                 if len_p < len_r:
                     pred_list.extend([""] * (len_r - len_p))
