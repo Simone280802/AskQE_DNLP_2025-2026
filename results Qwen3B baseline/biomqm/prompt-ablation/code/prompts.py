@@ -39,8 +39,7 @@ Think step by step:
 3. Provide the exact answer from the text
 
 Format your response as:
-Reasoning: [your step-by-step reasoning]
-FINAL ANSWER: [concise answer, max 10 words, using exact terms from context]
+FINAL ANSWER: [concise answer using exact terms from context]
 
 Answer:"""
 
