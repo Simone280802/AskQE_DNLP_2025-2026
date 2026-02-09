@@ -64,6 +64,7 @@ def generate_single_answer(tokenizer, model, device, sentence, question, strateg
     
     if answer:
         answer = answer.strip().strip('"\'')
+        print("##### Answer #####", answer)
     
     return answer
 
