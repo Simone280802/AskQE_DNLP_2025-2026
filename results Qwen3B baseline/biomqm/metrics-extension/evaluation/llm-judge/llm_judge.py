@@ -13,6 +13,7 @@ import json
 import os
 import argparse
 import torch
+import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # ========================================
@@ -21,6 +22,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 MODEL_NAME = "Qwen/Qwen2.5-3B-Instruct"
 tokenizer = None
 model = None
+LABEL_TOKEN_IDS = {}  # Will store map: "ENTAILMENT": id, ...
 
 VALID_LABELS = ["ENTAILMENT", "NEUTRAL", "CONTRADICTION"]
 
@@ -35,12 +37,13 @@ Classify the relationship as one of:
 - NEUTRAL: Answer B is neither clearly supportive nor contradictory  
 - CONTRADICTION: Answer B contradicts or is inconsistent with Answer A
 
-Respond with ONLY the label: ENTAILMENT, NEUTRAL, or CONTRADICTION."""
+Respond with ONLY the label: ENTAILMENT, NEUTRAL, or CONTRADICTION.
+Label:"""  # Added "Label:" to guide the model to the next token
 
 
 def load_model():
     """Lazy load model to avoid loading at import time"""
-    global tokenizer, model
+    global tokenizer, model, LABEL_TOKEN_IDS
     if tokenizer is None:
         print(f"Loading LLM Judge model: {MODEL_NAME}")
         tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -51,15 +54,42 @@ def load_model():
         )
         model.eval()
         print("Model loaded successfully!")
+        
+        # Identify token IDs for the labels
+        # We check both with and without leading space, and Upper/Title case
+        # Since prompt ends with "Label:", the next token might have a space or not depending on tokenizer
+        # Qwen usually treats " ENTAILMENT" and "ENTAILMENT" differently.
+        # We will use the ones that are valid single tokens.
+        
+        candidates = {
+            "ENTAILMENT": [" ENTAILMENT", "ENTAILMENT", " Entailment", "Entailment"],
+            "NEUTRAL": [" NEUTRAL", "NEUTRAL", " Neutral", "Neutral"],
+            "CONTRADICTION": [" CONTRADICTION", "CONTRADICTION", " Contradiction", "Contradiction"]
+        }
+        
+        print("\nIdentified Token IDs:")
+        for label, variants in candidates.items():
+            found = False
+            for var in variants:
+                ids = tokenizer.encode(var, add_special_tokens=False)
+                if len(ids) == 1:
+                    LABEL_TOKEN_IDS[label] = ids[0]
+                    print(f"  {label} ({var}): {ids[0]}")
+                    found = True
+                    break # Take the first valid single token (prioritizing leading space Uppercase)
+            
+            if not found:
+                print(f"WARNING: Could not find single token for {label}. Using first token of first variant.")
+                LABEL_TOKEN_IDS[label] = tokenizer.encode(variants[0], add_special_tokens=False)[0]
 
 
 def judge_nli(answer_src, answer_bt):
     """
-    Use Qwen as judge to classify NLI relationship.
-    Returns: predicted label (ENTAILMENT/NEUTRAL/CONTRADICTION)
+    Use Qwen as judge to classify NLI relationship using Logits.
+    Returns: predicted label and probabilities.
     """
     if not answer_src or not answer_bt:
-        return "NEUTRAL"
+        return "NEUTRAL", {"ENTAILMENT": 0.0, "NEUTRAL": 1.0, "CONTRADICTION": 0.0}
     
     load_model()
     
@@ -77,25 +107,35 @@ def judge_nli(answer_src, answer_bt):
     ).to(model.device)
     
     with torch.no_grad():
-        outputs = model.generate(
-            input_ids,
-            max_new_tokens=10,
-            temperature=0.1,
-            top_p=0.9,
-            repetition_penalty=1.1,
-            do_sample=True,
-        )
+        outputs = model(input_ids)
+        # Get logits of the last token (the one that predicts the next token)
+        next_token_logits = outputs.logits[0, -1, :]
     
-    response = outputs[0][input_ids.shape[-1]:]
-    answer = tokenizer.decode(response, skip_special_tokens=True).strip().upper()
-    
-    # Extract valid label from response
+    # Extract logits for valid labels
+    # Order: ENTAILMENT, NEUTRAL, CONTRADICTION
+    label_logits = []
     for label in VALID_LABELS:
-        if label in answer:
-            return label
+        tid = LABEL_TOKEN_IDS.get(label)
+        if tid is not None:
+            label_logits.append(next_token_logits[tid])
+        else:
+            label_logits.append(torch.tensor(-float('inf')).to(model.device)) # Should not happen
+
+    label_logits_tensor = torch.stack(label_logits)
     
-    # Default to NEUTRAL if no valid label found
-    return "NEUTRAL"
+    # Compute Softmax on these 3 values
+    probs = F.softmax(label_logits_tensor, dim=0)
+    
+    # Map back to labels
+    probs_dict = {
+        label: probs[i].item() for i, label in enumerate(VALID_LABELS)
+    }
+    
+    # Determine the label with max probability
+    predicted_label_index = torch.argmax(probs).item()
+    predicted_label = VALID_LABELS[predicted_label_index] # e.g. "ENTAILMENT"
+    
+    return predicted_label, probs_dict
 
 
 # ========================================
@@ -170,8 +210,11 @@ def main():
                     if not src_ans.strip(): 
                         continue
                     
-                    label = judge_nli(src_ans, bt_ans)
-                    llm_results.append({"label": label})
+                    label, probs = judge_nli(src_ans, bt_ans)
+                    llm_results.append({
+                        "label": label,
+                        "probs": probs
+                    })
                     
                     # Update statistics (UNWIND by severity)
                     for sev in severities:
