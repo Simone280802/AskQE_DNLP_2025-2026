@@ -1,0 +1,330 @@
+{
+  "global": {
+    "count": 9600,
+    "avg_similarity": 0.5500607705193882
+  },
+  "by_language": {
+    "es": {
+      "count": 1920,
+      "avg_similarity": 0.5777759784226267
+    },
+    "fr": {
+      "count": 1920,
+      "avg_similarity": 0.6058173437083799
+    },
+    "hi": {
+      "count": 1920,
+      "avg_similarity": 0.5123560305786669
+    },
+    "tl": {
+      "count": 1920,
+      "avg_similarity": 0.5539449991968771
+    },
+    "zh": {
+      "count": 1920,
+      "avg_similarity": 0.5004095006903905
+    }
+  },
+  "by_perturbation": {
+    "alteration": {
+      "count": 1200,
+      "avg_similarity": 0.4372808019102861
+    },
+    "expansion_impact": {
+      "count": 1200,
+      "avg_similarity": 0.5742151294640886
+    },
+    "expansion_noimpact": {
+      "count": 1200,
+      "avg_similarity": 0.5774069610381655
+    },
+    "intensifier": {
+      "count": 1200,
+      "avg_similarity": 0.5823799248978806
+    },
+    "omission": {
+      "count": 1200,
+      "avg_similarity": 0.5267464506160467
+    },
+    "spelling": {
+      "count": 1200,
+      "avg_similarity": 0.570534747504862
+    },
+    "synonym": {
+      "count": 1200,
+      "avg_similarity": 0.567636700430885
+    },
+    "word_order": {
+      "count": 1200,
+      "avg_similarity": 0.5642854482928912
+    }
+  },
+  "by_entity_type": {
+    "Activity": {
+      "count": 560,
+      "avg_similarity": 0.3628135381582459
+    },
+    "Age": {
+      "count": 40,
+      "avg_similarity": 0.925
+    },
+    "Biological_structure": {
+      "count": 400,
+      "avg_similarity": 0.45348612900357693
+    },
+    "Clinical_event": {
+      "count": 360,
+      "avg_similarity": 0.5616466611727244
+    },
+    "Coreference": {
+      "count": 320,
+      "avg_similarity": 0.5618759298929945
+    },
+    "Date": {
+      "count": 80,
+      "avg_similarity": 0.7432006152695976
+    },
+    "Detailed_description": {
+      "count": 1880,
+      "avg_similarity": 0.566489621194357
+    },
+    "Diagnostic_procedure": {
+      "count": 960,
+      "avg_similarity": 0.5144724126720879
+    },
+    "Disease_disorder": {
+      "count": 1560,
+      "avg_similarity": 0.5865416745577628
+    },
+    "Duration": {
+      "count": 80,
+      "avg_similarity": 0.6455888088792563
+    },
+    "Family_history": {
+      "count": 40,
+      "avg_similarity": 0.6481142282485962
+    },
+    "Frequency": {
+      "count": 40,
+      "avg_similarity": 0.6410834982991218
+    },
+    "History": {
+      "count": 160,
+      "avg_similarity": 0.4508472017943859
+    },
+    "Lab_value": {
+      "count": 680,
+      "avg_similarity": 0.7439249955966849
+    },
+    "Medication": {
+      "count": 240,
+      "avg_similarity": 0.5591200442053378
+    },
+    "Nonbiological_location": {
+      "count": 280,
+      "avg_similarity": 0.5523964253769789
+    },
+    "Other_entity": {
+      "count": 40,
+      "avg_similarity": 0.5251564875245094
+    },
+    "Other_event": {
+      "count": 80,
+      "avg_similarity": 0.5139645926188677
+    },
+    "Outcome": {
+      "count": 80,
+      "avg_similarity": 0.49284625279251487
+    },
+    "Personal_background": {
+      "count": 40,
+      "avg_similarity": 0.31589201986789706
+    },
+    "Quantitative_concept": {
+      "count": 160,
+      "avg_similarity": 0.8187934579327703
+    },
+    "Severity": {
+      "count": 360,
+      "avg_similarity": 0.48276155551300487
+    },
+    "Shape": {
+      "count": 40,
+      "avg_similarity": 0.15366145429434255
+    },
+    "Sign_symptom": {
+      "count": 600,
+      "avg_similarity": 0.4894744110386819
+    },
+    "Subject": {
+      "count": 200,
+      "avg_similarity": 0.6223337101191282
+    },
+    "Therapeutic_procedure": {
+      "count": 320,
+      "avg_similarity": 0.4071876940768561
+    }
+  },
+  "by_language_perturbation": {
+    "es__alteration": {
+      "count": 240,
+      "avg_similarity": 0.4236128552972029
+    },
+    "es__expansion_impact": {
+      "count": 240,
+      "avg_similarity": 0.5999743126953642
+    },
+    "es__expansion_noimpact": {
+      "count": 240,
+      "avg_similarity": 0.6065699709579349
+    },
+    "es__intensifier": {
+      "count": 240,
+      "avg_similarity": 0.6137585496335911
+    },
+    "es__omission": {
+      "count": 240,
+      "avg_similarity": 0.5616378122319777
+    },
+    "es__spelling": {
+      "count": 240,
+      "avg_similarity": 0.5864439940778539
+    },
+    "es__synonym": {
+      "count": 240,
+      "avg_similarity": 0.6259062511535982
+    },
+    "es__word_order": {
+      "count": 240,
+      "avg_similarity": 0.6043040813334907
+    },
+    "fr__alteration": {
+      "count": 240,
+      "avg_similarity": 0.40720372572541236
+    },
+    "fr__expansion_impact": {
+      "count": 240,
+      "avg_similarity": 0.6258880214765667
+    },
+    "fr__expansion_noimpact": {
+      "count": 240,
+      "avg_similarity": 0.6568887083946416
+    },
+    "fr__intensifier": {
+      "count": 240,
+      "avg_similarity": 0.6567344983923249
+    },
+    "fr__omission": {
+      "count": 240,
+      "avg_similarity": 0.6035269039062162
+    },
+    "fr__spelling": {
+      "count": 240,
+      "avg_similarity": 0.6428289786757281
+    },
+    "fr__synonym": {
+      "count": 240,
+      "avg_similarity": 0.6288158930993328
+    },
+    "fr__word_order": {
+      "count": 240,
+      "avg_similarity": 0.624652019996817
+    },
+    "hi__alteration": {
+      "count": 240,
+      "avg_similarity": 0.4786710652600353
+    },
+    "hi__expansion_impact": {
+      "count": 240,
+      "avg_similarity": 0.5235622031070913
+    },
+    "hi__expansion_noimpact": {
+      "count": 240,
+      "avg_similarity": 0.5420204494614154
+    },
+    "hi__intensifier": {
+      "count": 240,
+      "avg_similarity": 0.5247308836163332
+    },
+    "hi__omission": {
+      "count": 240,
+      "avg_similarity": 0.4698290348557445
+    },
+    "hi__spelling": {
+      "count": 240,
+      "avg_similarity": 0.5554738175900032
+    },
+    "hi__synonym": {
+      "count": 240,
+      "avg_similarity": 0.5226768425898627
+    },
+    "hi__word_order": {
+      "count": 240,
+      "avg_similarity": 0.4818839481488491
+    },
+    "tl__alteration": {
+      "count": 240,
+      "avg_similarity": 0.4850730722226823
+    },
+    "tl__expansion_impact": {
+      "count": 240,
+      "avg_similarity": 0.5644636160092583
+    },
+    "tl__expansion_noimpact": {
+      "count": 240,
+      "avg_similarity": 0.5580666759361823
+    },
+    "tl__intensifier": {
+      "count": 240,
+      "avg_similarity": 0.5723306184886799
+    },
+    "tl__omission": {
+      "count": 240,
+      "avg_similarity": 0.5369274966030692
+    },
+    "tl__spelling": {
+      "count": 240,
+      "avg_similarity": 0.5666252282021257
+    },
+    "tl__synonym": {
+      "count": 240,
+      "avg_similarity": 0.573713086778298
+    },
+    "tl__word_order": {
+      "count": 240,
+      "avg_similarity": 0.5743601993347208
+    },
+    "zh__alteration": {
+      "count": 240,
+      "avg_similarity": 0.3918432910460979
+    },
+    "zh__expansion_impact": {
+      "count": 240,
+      "avg_similarity": 0.5571874940321625
+    },
+    "zh__expansion_noimpact": {
+      "count": 240,
+      "avg_similarity": 0.5234890004406528
+    },
+    "zh__intensifier": {
+      "count": 240,
+      "avg_similarity": 0.5443450743584738
+    },
+    "zh__omission": {
+      "count": 240,
+      "avg_similarity": 0.46181100548322623
+    },
+    "zh__spelling": {
+      "count": 240,
+      "avg_similarity": 0.5013017189785993
+    },
+    "zh__synonym": {
+      "count": 240,
+      "avg_similarity": 0.487071428533333
+    },
+    "zh__word_order": {
+      "count": 240,
+      "avg_similarity": 0.5362269926505784
+    }
+  }
+}
