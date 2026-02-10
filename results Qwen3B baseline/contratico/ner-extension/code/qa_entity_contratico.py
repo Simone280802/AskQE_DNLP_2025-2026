@@ -87,21 +87,21 @@ def main():
                         help="Limit number of samples for testing")
     args = parser.parse_args()
 
-    # ── Load QG data (indexed by id) ──
-    qg_by_id = {}
+    # ── Load QG data (indexed by src text) ──
+    qg_by_src = {}
     with open(args.qg_path, 'r', encoding='utf-8') as f:
         for line in f:
             data = json.loads(line.strip())
-            qg_by_id[data['id']] = data
-    print(f"Loaded {len(qg_by_id)} QG entries")
+            qg_by_src[data.get('src', '')] = data
+    print(f"Loaded {len(qg_by_src)} QG entries")
 
-    # ── Load QA source answers (indexed by id) ──
-    src_by_id = {}
+    # ── Load QA source answers (indexed by src text) ──
+    src_by_src = {}
     with open(args.qa_source_path, 'r', encoding='utf-8') as f:
         for line in f:
             data = json.loads(line.strip())
-            src_by_id[data.get('id', data.get('src', ''))] = data
-    print(f"Loaded {len(src_by_id)} source QA entries")
+            src_by_src[data.get('src', '')] = data
+    print(f"Loaded {len(src_by_src)} source QA entries")
 
     # ── Load and sample contraTICO data ──
     all_rows = []
@@ -145,8 +145,9 @@ def main():
     with open(args.output_path, 'w', encoding='utf-8') as f_out:
         for row in sampled:
             row_id = row.get('id', '')
-            qg_data = qg_by_id.get(row_id)
-            src_data = src_by_id.get(row_id)
+            en_text = row.get('en', '')
+            qg_data = qg_by_src.get(en_text)
+            src_data = src_by_src.get(en_text)
 
             if not qg_data:
                 skipped += 1
