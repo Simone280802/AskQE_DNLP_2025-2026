@@ -12,7 +12,7 @@ import random
 
 # ── Configuration ──────────────────────────────────────────────────
 SEED = 42
-ROWS_PER_PERTURBATION = 84
+ROWS_PER_PERTURBATION = 125
 LANGUAGES = ["es", "fr", "hi", "tl", "zh"]
 CONFIGS = ["vanilla", "atomic", "semantic"]
 PERTURBATIONS = [

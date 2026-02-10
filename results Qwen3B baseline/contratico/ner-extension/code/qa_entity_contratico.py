@@ -79,7 +79,7 @@ def main():
                         help="Target language")
     parser.add_argument("--output_path", type=str, required=True,
                         help="Path to output JSONL file")
-    parser.add_argument("--sample_size", type=int, default=84,
+    parser.add_argument("--sample_size", type=int, default=125,
                         help="Number of rows to sample (default: 84)")
     parser.add_argument("--seed", type=int, default=42,
                         help="Random seed for reproducible sampling (default: 42)")
