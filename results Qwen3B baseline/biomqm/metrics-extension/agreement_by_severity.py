@@ -24,6 +24,9 @@ stats_by_lang = {
     lang: {sev: {"matches": 0, "total": 0} for sev in SEVERITIES}
     for lang in LANGUAGES
 }
+# Overall (no unwinding) - counts each Q&A pair exactly once
+overall_matches = 0
+overall_total = 0
 
 for lang in LANGUAGES:
     llm_path = os.path.join(LLM_DIR, f"{lang}-llm-judge.jsonl")
@@ -49,6 +52,11 @@ for lang in LANGUAGES:
                 nli_label = nli_results[i]["label"].upper()
                 match = 1 if llm_label == nli_label else 0
 
+                # Overall (each pair counted once)
+                overall_matches += match
+                overall_total += 1
+
+                # Per-severity (unwound: pair counted in each severity)
                 for sev in severities:
                     if sev in SEVERITIES:
                         stats_global[sev]["matches"] += match
@@ -68,9 +76,7 @@ for sev in SEVERITIES:
     rate = (m / t * 100) if t > 0 else 0
     print(f"{sev:<12} {m:>8} {t:>8} {rate:>9.2f}%")
 
-total_m = sum(s["matches"] for s in stats_global.values())
-total_t = sum(s["total"] for s in stats_global.values())
-print(f"{'OVERALL':<12} {total_m:>8} {total_t:>8} {total_m/total_t*100:>9.2f}%")
+print(f"{'OVERALL':<12} {overall_matches:>8} {overall_total:>8} {overall_matches/overall_total*100:>9.2f}%")
 
 print(f"\n{'=' * 60}")
 print("AGREEMENT RATE BY LANGUAGE × SEVERITY")
@@ -100,7 +106,7 @@ with open(csv_path, 'w', newline='') as f:
         t = stats_global[sev]["total"]
         rate = f"{m/t*100:.2f}%" if t > 0 else "N/A"
         writer.writerow([sev, m, t, rate])
-    writer.writerow(["OVERALL", total_m, total_t, f"{total_m/total_t*100:.2f}%"])
+    writer.writerow(["OVERALL", overall_matches, overall_total, f"{overall_matches/overall_total*100:.2f}%"])
     writer.writerow([])
     
     # By language × severity

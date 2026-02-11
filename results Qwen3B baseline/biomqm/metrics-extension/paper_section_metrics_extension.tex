@@ -181,31 +181,6 @@
 
     German exhibits the highest agreement (74.41\%), possibly due to its structural similarity to English, on which both models were primarily trained. Russian shows the lowest agreement (66.30\%), suggesting that morphologically rich languages with different writing systems pose greater challenges for cross-model consistency.
 
-    \subsubsection{Agreement by Severity}
-    \label{sec:agreement_severity}
-
-    Table~\ref{tab:agreement_severity} breaks down the inter-model agreement by translation error severity. Since each sentence in BioMQM is annotated with one or more severity labels, we unwind the severities and compute the agreement rate for each Q\&A pair comparison.
-
-    \begin{table}[htbp]
-    \centering
-    \caption{Inter-Model Agreement by Severity}
-    \label{tab:agreement_severity}
-    \begin{tabular}{lccc}
-    \hline
-    \textbf{Severity} & \textbf{Total} & \textbf{Matches} & \textbf{Agreement} \\
-    \hline
-    Neutral  & 9,713  & 6,757  & 69.57\% \\
-    Minor    & 20,037 & 13,759 & 68.67\% \\
-    Major    & 10,505 & 7,640  & 72.73\% \\
-    Critical & 677    & 451    & 66.62\% \\
-    \hline
-    \textbf{Overall} & \textbf{40,932} & \textbf{28,607} & \textbf{69.89\%} \\
-    \hline
-    \end{tabular}
-    \end{table}
-
-    An interesting pattern emerges: \textbf{Major} severity shows the highest agreement (72.73\%), suggesting that substantial translation errors produce semantic differences that are unambiguous enough for both models to classify consistently. In contrast, \textbf{Critical} severity exhibits the lowest agreement (66.62\%), though this may be partly attributable to the small sample size (677 comparisons). \textbf{Neutral} and \textbf{Minor} severities show comparable agreement rates (~69\%), indicating that subtle or absent translation errors lead to more ambiguous semantic relationships where the two models diverge.
-
     \subsubsection{Label Distribution by Language and Severity}
     \label{sec:label_distribution}
 
