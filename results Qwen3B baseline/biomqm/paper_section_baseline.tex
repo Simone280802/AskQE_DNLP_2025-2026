@@ -1,0 +1,54 @@
+% =============================================================================
+% BASELINE CONFIGURATION
+% =============================================================================
+
+\subsection{Baseline: Vanilla AskQE with Qwen2.5-3B}
+\label{sec:baseline}
+
+We replicate the AskQE pipeline of~\citet{ki-etal-2025-askqe} by replacing the original LLaMA-3 70B backbone with Qwen2.5-3B-Instruct~\cite{qwen2025}, a substantially smaller model (3B vs.\ 70B parameters). This substitution is motivated by computational constraints and serves as a controlled baseline for our subsequent extensions: all configurations share the same underlying LLM, isolating the effect of question generation strategy.
+
+\subsubsection{Question Generation}
+
+Given a source sentence $s$, the question generation (QG) module produces a set of questions $\mathcal{Q} = \{q_1, \ldots, q_k\}$ via vanilla prompting. The prompt provides two in-context examples and instructs the model to output questions in Python list format:
+
+\begin{quote}
+\small
+\texttt{Task: You will be given an English sentence. Your goal is to generate a list of relevant questions based on the sentence. Output only the list of questions in Python list format without giving any additional explanation.}\\[3pt]
+\texttt{Sentence: \{$s$\}}\\
+\texttt{Questions:}
+\end{quote}
+
+The model generates freely ($\texttt{max\_new\_tokens} = 1024$) without temperature sampling, yielding a variable number of questions per sentence. No external information (e.g., atomic facts, semantic roles) is provided---the model relies solely on the surface form of the sentence.
+
+\subsubsection{Question Answering}
+
+Each generated question $q_i$ is answered in two contexts: the source sentence $s$ and the backtranslated MT output $s_{\text{bt}}$. The QA prompt follows a similar few-shot format:
+
+\begin{quote}
+\small
+\texttt{Task: You will be given an English sentence and a list of relevant questions. Your goal is to generate a list of answers to the questions based on the sentence.}\\[3pt]
+\texttt{Sentence: \{$s$ or $s_{\text{bt}}$\}}\\
+\texttt{Questions: \{$\mathcal{Q}$\}}\\
+\texttt{Answers:}
+\end{quote}
+
+This produces paired answer sets $\mathcal{A}^{(s)} = \{a_1^{(s)}, \ldots, a_k^{(s)}\}$ and $\mathcal{A}^{(\text{bt})} = \{a_1^{(\text{bt})}, \ldots, a_k^{(\text{bt})}\}$, which are then compared to assess translation quality.
+
+\subsubsection{Evaluation Metrics}
+
+For each question $q_i$, we compare the source and backtranslated answers using five complementary metrics:
+\begin{itemize}
+    \item \textbf{Token-level F1}: harmonic mean of precision and recall over whitespace-tokenised answers;
+    \item \textbf{Exact Match (EM)}: binary indicator of normalised string equality;
+    \item \textbf{BLEU}~\cite{papineni2002bleu}: $n$-gram precision with brevity penalty;
+    \item \textbf{chrF}~\cite{popovic2015chrf}: character-level $F$-score;
+    \item \textbf{SBERT}~\cite{reimers2019sentence}: cosine similarity between sentence embeddings.
+\end{itemize}
+
+The sentence-level score under metric $\phi$ is the average over all $k$ question-answer pairs:
+\begin{equation}
+    \Phi(s) = \frac{1}{k} \sum_{i=1}^{k} \phi\big(a_i^{(s)},\, a_i^{(\text{bt})}\big)
+    \label{eq:baseline_agg}
+\end{equation}
+
+A high score indicates that the translation preserves the semantic content of the source, while a low score signals potential translation errors.

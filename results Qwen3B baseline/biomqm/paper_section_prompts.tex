@@ -1,0 +1,132 @@
+% =============================================================================
+% ALL PROMPT TEMPLATES
+% =============================================================================
+% Requires: \usepackage{listings} or use \begin{verbatim} / tcolorbox
+% =============================================================================
+
+\subsection{Prompt Templates}
+\label{sec:prompts}
+
+This section documents all prompt templates employed across the three extensions of the AskQE pipeline. For readability, placeholders are shown in curly braces.
+
+
+% ----- PROMPT ABLATION -----
+
+\subsubsection{Prompt Ablation (QA Stage)}
+\label{sec:prompts_ablation}
+
+The following three prompt variants modify the \textit{question answering} stage while keeping the question generation unchanged from the vanilla baseline.
+
+\paragraph{P1: Few-Shot Medical.}
+This variant provides two domain-specific in-context examples to guide the model toward concise, medically grounded answers.
+
+\begin{quote}
+\small\ttfamily
+Answer medical questions based on the context.\\[4pt]
+Example 1:\\
+Context: "Patient diagnosed with diabetes mellitus type 2, prescribed metformin 500mg twice daily."\\
+Question: "What medication was prescribed?"\\
+Answer: "metformin 500mg"\\[4pt]
+Example 2:\\
+Context: "MRI revealed a 2cm lesion in the left frontal lobe."\\
+Question: "What was the size of the lesion?"\\
+Answer: "2cm"\\[4pt]
+Now answer:\\
+Context: \{sentence\}\\
+Question: \{question\}
+\end{quote}
+
+\paragraph{P2: Chain-of-Thought.}
+This variant instructs the model to reason step-by-step before producing a final answer, aiming to improve discrimination between severity levels.
+
+\begin{quote}
+\small\ttfamily
+Answer the question about the medical text.\\[4pt]
+Context: \{sentence\}\\
+Question: \{question\}\\[4pt]
+Think step by step:\\
+1. Identify the key medical information in the context\\
+2. Locate the specific answer to the question\\
+3. Provide the exact answer from the text\\[4pt]
+Format your response as:\\
+REASONING: [your reasoning]\\
+FINAL ANSWER: [concise answer using exact terms from context]
+\end{quote}
+
+\paragraph{P3: Concise Constraint.}
+This variant enforces brevity to reduce verbosity and improve Exact Match alignment.
+
+\begin{quote}
+\small\ttfamily
+Context: \{sentence\}\\
+Question: \{question\}\\[4pt]
+Answer in maximum 5 words using exact terms from the context:
+\end{quote}
+
+
+% ----- NER EXTENSION -----
+
+\subsubsection{NER Extension (QG Stage)}
+\label{sec:prompts_ner}
+
+The NER extension modifies the \textit{question generation} stage by conditioning each question on a specific biomedical entity extracted via NER.
+
+\paragraph{Entity-Aware Question Generation.}
+
+\begin{quote}
+\small\ttfamily
+Task: Generate a specific question about the given entity based on the sentence.\\[4pt]
+The entity is: "\{entity\}" (Type: \{entity\_type\})\\
+The sentence is: "\{sentence\}"\\[4pt]
+Generate exactly ONE clear, specific question that:\\
+1. Can be answered using ONLY information from the sentence\\
+2. Specifically asks about the entity mentioned\\
+3. The answer should be the entity itself or information directly related to it\\[4pt]
+Output only the question, nothing else.\\[4pt]
+Question:
+\end{quote}
+
+\paragraph{Entity-Aware Question Answering.}
+
+\begin{quote}
+\small\ttfamily
+Task: Answer the question based ONLY on the given sentence.\\[4pt]
+Sentence: \{sentence\}\\
+Question: \{question\}\\[4pt]
+Instructions:\\
+- Answer using ONLY information from the sentence\\
+- If the answer is not in the sentence, respond with "[NOT FOUND]"\\
+- Be concise and direct\\[4pt]
+Answer:
+\end{quote}
+
+
+% ----- METRICS EXTENSION -----
+
+\subsubsection{Metrics Extension (Evaluation Stage)}
+\label{sec:prompts_metrics}
+
+The metrics extension introduces two NLI-based classifiers at the \textit{evaluation} stage to assess semantic consistency between source and backtranslated answers.
+
+\paragraph{LLM-as-Judge (Qwen2.5-3B-Instruct).}
+The prompt constrains the model to produce a single label token, enabling first-token probability extraction (see Section~\ref{sec:nli_methodology}).
+
+\begin{quote}
+\small\ttfamily
+You are a judge evaluating the relationship between two answers to the same question.\\[4pt]
+Answer A (Source): \{answer\_src\}\\
+Answer B (Backtranslation): \{answer\_bt\}\\[4pt]
+Classify the relationship as one of:\\
+- ENTAILMENT: Answer B supports or is consistent with Answer A\\
+- NEUTRAL: Answer B is neither clearly supportive nor contradictory\\
+- CONTRADICTION: Answer B contradicts or is inconsistent with Answer A\\[4pt]
+Respond with ONLY the label: ENTAILMENT, NEUTRAL, or CONTRADICTION.\\
+Label:
+\end{quote}
+
+\paragraph{NLI Classifier (BART-large-MNLI).}
+The dedicated NLI model (\texttt{facebook/bart-large-mnli}) does not require a natural language prompt. It receives the source answer $a_s$ as premise and the backtranslated answer $a_{bt}$ as hypothesis via the standard \texttt{[SEP]}-separated input format:
+\begin{equation}
+    \texttt{input} = [a_s \;\texttt{</s>}\; a_{bt}]
+\end{equation}
+The model outputs logits over three classes (\textsc{Contradiction}, \textsc{Neutral}, \textsc{Entailment}), from which probabilities are obtained via softmax.
