@@ -1,0 +1,57 @@
+baseline   de       entries=12127
+P1         de       entries=11964 (skipped 294)
+P2         de       entries=11964 (skipped 294)
+P3         de       entries=11964 (skipped 294)
+baseline   es       entries=9293
+P1         es       entries=9057 (skipped 358)
+P2         es       entries=9057 (skipped 358)
+P3         es       entries=9057 (skipped 358)
+baseline   fr       entries=5049
+P1         fr       entries=4985 (skipped 103)
+P2         fr       entries=4985 (skipped 103)
+P3         fr       entries=4985 (skipped 103)
+baseline   ru       entries=4113
+P1         ru       entries=4049 (skipped 127)
+P2         ru       entries=4049 (skipped 127)
+P3         ru       entries=4049 (skipped 127)
+baseline   zh-CN    entries=10350
+P1         zh-CN    entries=10177 (skipped 242)
+P2         zh-CN    entries=10177 (skipped 242)
+P3         zh-CN    entries=10177 (skipped 242)
+
+================================================================================
+STRING COMPARISON BY SEVERITY (Fair Comparison)
+================================================================================
+Neutral    count=9713   F1=0.4808  EM=0.2822  chrF=55.49  BLEU=40.08
+Minor      count=20037  F1=0.4185  EM=0.2149  chrF=48.38  BLEU=33.28
+Major      count=10505  F1=0.4409  EM=0.2797  chrF=51.36  BLEU=37.61
+Critical   count=677    F1=0.3906  EM=0.1905  chrF=46.85  BLEU=32.19
+OVERALL    count=40932  F1=0.4386  EM=0.2471  chrF=50.81  BLEU=35.99
+
+Saved: /Users/federicobaldi/askqe-results-prompt-ablation/AskQE_DNLP_2025-2026/results Qwen3B baseline/biomqm/prompt-ablation/RESULTS/string_comparison_by_severity_filtered.csv
+
+================================================================================
+STRING COMPARISON BY LANGUAGE-SEVERITY (Fair Comparison)
+================================================================================
+de       Neutral    count=1753   F1=0.5937  EM=0.4335  chrF=65.96  BLEU=53.44
+de       Minor      count=2833   F1=0.5126  EM=0.3470  chrF=58.73  BLEU=44.84
+de       Major      count=7495   F1=0.4758  EM=0.3276  chrF=55.04  BLEU=41.58
+de       Critical   count=46     F1=0.4588  EM=0.3478  chrF=51.66  BLEU=40.81
+es       Neutral    count=1207   F1=0.4921  EM=0.2635  chrF=55.15  BLEU=40.52
+es       Minor      count=7255   F1=0.4139  EM=0.2101  chrF=47.63  BLEU=33.19
+es       Major      count=381    F1=0.4225  EM=0.2100  chrF=47.70  BLEU=33.65
+es       Critical   count=450    F1=0.4100  EM=0.2067  chrF=48.28  BLEU=33.56
+fr       Neutral    count=1562   F1=0.4829  EM=0.3041  chrF=57.92  BLEU=41.25
+fr       Minor      count=2840   F1=0.3515  EM=0.1838  chrF=41.78  BLEU=27.85
+fr       Major      count=597    F1=0.3408  EM=0.1859  chrF=40.87  BLEU=27.78
+fr       Critical   count=50     F1=0.2066  EM=0.0600  chrF=27.76  BLEU=13.49
+ru       Neutral    count=2547   F1=0.4601  EM=0.2395  chrF=53.50  BLEU=36.38
+ru       Minor      count=1031   F1=0.4848  EM=0.2939  chrF=53.86  BLEU=40.47
+ru       Major      count=415    F1=0.3661  EM=0.1687  chrF=43.07  BLEU=29.57
+ru       Critical   count=120    F1=0.3637  EM=0.1167  chrF=47.09  BLEU=30.88
+zh-CN    Neutral    count=2644   F1=0.4196  EM=0.2186  chrF=49.21  BLEU=33.88
+zh-CN    Minor      count=6078   F1=0.4003  EM=0.1603  chrF=46.61  BLEU=29.31
+zh-CN    Major      count=1617   F1=0.3396  EM=0.1373  chrF=41.18  BLEU=25.83
+zh-CN    Critical   count=11     F1=0.4400  EM=0.2727  chrF=52.40  BLEU=39.00
+
+Saved: /Users/federicobaldi/askqe-results-prompt-ablation/AskQE_DNLP_2025-2026/results Qwen3B baseline/biomqm/prompt-ablation/RESULTS/string_comparison_by_language_severity_filtered.csv
