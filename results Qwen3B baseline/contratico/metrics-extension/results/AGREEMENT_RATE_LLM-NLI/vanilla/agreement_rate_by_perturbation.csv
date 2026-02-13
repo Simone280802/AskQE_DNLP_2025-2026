@@ -1,0 +1,10 @@
+perturbation,matches,total,agreement_rate_pct
+alteration,562,730,76.99
+expansion_impact,565,730,77.4
+expansion_noimpact,575,730,78.77
+intensifier,559,730,76.58
+omission,575,730,78.77
+spelling,599,730,82.05
+synonym,584,730,80.0
+word_order,602,730,82.47
+OVERALL,4621,5840,79.13

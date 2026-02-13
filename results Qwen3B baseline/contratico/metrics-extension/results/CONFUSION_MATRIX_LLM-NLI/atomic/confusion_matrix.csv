@@ -1,0 +1,5 @@
+NLI \ LLM-Judge,entailment,neutral,contradiction,total
+entailment,2165,251,12,2428
+neutral,257,686,56,999
+contradiction,39,86,128,253
+total,2461,1023,196,3680
