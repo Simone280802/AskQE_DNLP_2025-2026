@@ -1,6 +1,7 @@
 """
 Diversity evaluation for baseline QG file (biomqm).
 Computes intra-entry cosine similarity (SBERT) and BERTScore among generated questions.
+Only unique src entries are considered (duplicates are skipped).
 Adapted from ner-extension/evaluation/desiderata/i_diversity.py for the baseline QG format.
 """
 import json
@@ -49,7 +50,9 @@ def extract_question_strings(questions):
 def main():
     print(f"\nProcessing File: {qg_file}")
 
+    seen_srcs = set()
     total_entries = 0
+    skipped_duplicates = 0
     diversity_scores = []
     processed_data = []
 
@@ -57,6 +60,13 @@ def main():
         for line in file:
             try:
                 data = json.loads(line)
+                src = data.get("src", "")
+
+                if src in seen_srcs:
+                    skipped_duplicates += 1
+                    continue
+                seen_srcs.add(src)
+
                 total_entries += 1
                 questions = extract_question_strings(data.get("questions", []))
 
@@ -94,7 +104,8 @@ def main():
         avg_sbert_diversity = 0
         avg_bert_diversity = 0
 
-    print(f"Total entries: {total_entries}")
+    print(f"Total unique src entries: {total_entries}")
+    print(f"Skipped duplicate src entries: {skipped_duplicates}")
     print(f"Overall Average Cosine Similarity (SBERT): {avg_sbert_diversity:.4f}")
     print(f"Overall Average BERTScore Similarity: {avg_bert_diversity:.4f}")
 

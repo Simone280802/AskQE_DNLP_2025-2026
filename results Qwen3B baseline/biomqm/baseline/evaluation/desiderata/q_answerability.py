@@ -1,6 +1,7 @@
 """
 Answerability evaluation for baseline QG file (biomqm).
 Uses potsawee/longformer-large-4096-answerable-squad2 to score each question.
+Only unique src entries are considered (duplicates are skipped).
 Adapted from ner-extension/evaluation/desiderata/q_answerability.py for the baseline QG format.
 """
 import json
@@ -52,15 +53,24 @@ def extract_question_strings(questions):
 def main():
     print(f"\nProcessing File: {qg_file}")
 
+    seen_srcs = set()
     answerability_scores = []
     total_questions = 0
+    skipped_duplicates = 0
     processed_data = []
 
     with open(qg_file, "r", encoding="utf-8") as file:
         for line in file:
             try:
                 data = json.loads(line)
-                context = data.get("src", "")
+                src = data.get("src", "")
+
+                if src in seen_srcs:
+                    skipped_duplicates += 1
+                    continue
+                seen_srcs.add(src)
+
+                context = src
                 questions = extract_question_strings(data.get("questions", []))
 
                 if not context or not questions:
@@ -101,7 +111,9 @@ def main():
 
     if answerability_scores:
         avg_answerability = np.mean(answerability_scores)
-        print(f"\nTotal questions scored: {total_questions}")
+        print(f"\nTotal unique src entries: {len(seen_srcs)}")
+        print(f"Skipped duplicate src entries: {skipped_duplicates}")
+        print(f"Total questions scored: {total_questions}")
         print(f"Average Answerability Score: {avg_answerability:.2f}%")
     else:
         print("\nNo valid questions found in dataset.")
@@ -111,3 +123,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

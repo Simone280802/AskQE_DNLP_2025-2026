@@ -1,5 +1,6 @@
 """
 Average number of questions per entry in the baseline QG file (biomqm).
+Only unique src entries are considered (duplicates are skipped).
 Adapted from ner-extension/evaluation/desiderata/i_avg_questions.py for the baseline QG format.
 """
 import json
@@ -39,13 +40,22 @@ def extract_question_strings(questions):
 def main():
     print(f"File: {qg_file}")
 
+    seen_srcs = set()
     total_entries = 0
     total_questions = 0
     duplicate_questions_count = 0
+    skipped_duplicates = 0
 
     with open(qg_file, "r", encoding="utf-8") as file:
         for line in file:
             data = json.loads(line)
+            src = data.get("src", "")
+
+            if src in seen_srcs:
+                skipped_duplicates += 1
+                continue
+            seen_srcs.add(src)
+
             total_entries += 1
             questions = extract_question_strings(data.get("questions", []))
 
@@ -55,7 +65,8 @@ def main():
             total_questions += len(questions)
 
     avg_questions = total_questions / total_entries if total_entries > 0 else 0
-    print(f"Total entries: {total_entries}")
+    print(f"Total unique src entries: {total_entries}")
+    print(f"Skipped duplicate src entries: {skipped_duplicates}")
     print(f"Total questions: {total_questions}")
     print(f"Average Number of Questions: {avg_questions:.2f}")
 

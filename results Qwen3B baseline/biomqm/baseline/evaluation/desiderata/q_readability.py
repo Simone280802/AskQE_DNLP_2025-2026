@@ -1,6 +1,7 @@
 """
 Readability evaluation for baseline QG file (biomqm).
 Uses Flesch Reading Ease Score to measure question readability.
+Only unique src entries are considered (duplicates are skipped).
 Adapted from ner-extension/evaluation/desiderata/q_readability.py for the baseline QG format.
 """
 import json
@@ -56,12 +57,21 @@ def classify_readability(score):
 def main():
     print(f"File: {qg_file}")
 
+    seen_srcs = set()
     total_entries = 0
     readability_scores = []
+    skipped_duplicates = 0
 
     with open(qg_file, "r", encoding="utf-8") as file:
         for line in file:
             data = json.loads(line)
+            src = data.get("src", "")
+
+            if src in seen_srcs:
+                skipped_duplicates += 1
+                continue
+            seen_srcs.add(src)
+
             questions = extract_question_strings(data.get("questions", []))
 
             if len(questions) == 0:
@@ -79,7 +89,8 @@ def main():
 
     if readability_scores:
         avg_readability = np.mean(readability_scores)
-        print(f"Total entries: {total_entries}")
+        print(f"Total unique src entries: {total_entries}")
+        print(f"Skipped duplicate src entries: {skipped_duplicates}")
         print(f"Average Readability Score (Flesch-Kincaid): {avg_readability:.2f}")
         print(f"Division: {classify_readability(avg_readability)}")
     else:

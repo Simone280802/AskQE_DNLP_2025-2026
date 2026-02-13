@@ -1,5 +1,6 @@
 """
 Duplicate question detection for baseline QG file (biomqm).
+Only unique src entries are considered (duplicates are skipped).
 Adapted from ner-extension/evaluation/desiderata/i_duplicate.py for the baseline QG format.
 """
 import json
@@ -36,12 +37,21 @@ def extract_question_strings(questions):
 def main():
     print(f"File: {qg_file}")
 
+    seen_srcs = set()
     total_entries = 0
     duplicate_questions_count = 0
+    skipped_duplicates = 0
 
     with open(qg_file, "r", encoding="utf-8") as file:
         for line in file:
             data = json.loads(line)
+            src = data.get("src", "")
+
+            if src in seen_srcs:
+                skipped_duplicates += 1
+                continue
+            seen_srcs.add(src)
+
             total_entries += 1
             questions = extract_question_strings(data.get("questions", []))
 
@@ -49,6 +59,8 @@ def main():
             if len(unique_questions) < len(questions):
                 duplicate_questions_count += 1
 
+    print(f"Total unique src entries: {total_entries}")
+    print(f"Skipped duplicate src entries: {skipped_duplicates}")
     print(f"Duplicate Questions: {duplicate_questions_count} / {total_entries}")
 
 
