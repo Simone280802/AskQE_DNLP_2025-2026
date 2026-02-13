@@ -1,0 +1,5 @@
+agreed_label,count,nli_avg_confidence,llm_avg_confidence
+entailment,9566,0.9259,0.9698
+neutral,5079,0.9091,0.9011
+contradiction,1716,0.8307,0.924
+OVERALL,16361,0.9107,0.9437

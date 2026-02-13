@@ -1,0 +1,6 @@
+severity,count_baseline,count_ner,baseline_sbert,ner-extension_sbert,delta_ner_pct
+Neutral,9713,4675,0.6397,0.8462,32.28
+Minor,20037,9107,0.5768,0.8338,44.57
+Major,10505,5448,0.5951,0.8205,37.88
+Critical,677,344,0.5787,0.6824,17.92
+OVERALL,40932,19574,0.5964,0.8304,39.23
