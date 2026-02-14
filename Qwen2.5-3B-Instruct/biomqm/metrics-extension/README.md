@@ -15,16 +15,16 @@ The NLI and LLM Judge outputs are then compared via:
 ## Pipeline Overview
 
 ```
-Mapped answers (baseline mapping.jsonl)
-    │
-    ├──────────────────────────────┐
+   Mapped answers (baseline mapping.jsonl)
+                    │
+    ┌──────────────────────────────┐
     ▼                              ▼
-┌──────────────┐           ┌────────────┐
+┌───────────────┐           ┌────────────┐
 │ NLI Classifier│           │ LLM Judge  │
-│ (BART-MNLI)  │           │ (Qwen 3B)  │
-└──────┬───────┘           └──────┬─────┘
-       │                          │
-       └────────────┬─────────────┘
+│ (BART-MNLI)   │           │ (Qwen 3B)  │
+└──────┬────────┘           └──────┬─────┘
+       │                           │
+       └────────────┬──────────────┘
                     ▼
         ┌───────────────────────┐
         │ Post-hoc Analysis     │
