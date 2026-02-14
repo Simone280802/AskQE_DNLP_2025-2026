@@ -68,7 +68,6 @@ Qwen2.5-3B-Instruct/
     └── metrics-extension/         # Extension 3 (ContraTICO)
 ```
 
-
 ## Models Used
 
 | Model | HuggingFace ID | Used in |
@@ -78,21 +77,141 @@ Qwen2.5-3B-Instruct/
 | MiniLM SBERT | `sentence-transformers/all-MiniLM-L6-v2` | Semantic Similarity |
 | BART MNLI | `facebook/bart-large-mnli` | NLI Classification |
 
-## Execution Order
 
-For a full reproduction, run the unified notebooks in this order:
 
-1. **Baseline**
-   - `biomqm/baseline/baseline.ipynb`
-   - `contratico/baseline/baseline.ipynb`
-2. **NER Extension**
-   - `biomqm/ner-extension/ner_pipeline.ipynb`
-   - `contratico/ner-extension/ner_pipeline.ipynb`
-3. **Prompt Ablation**
-   - `biomqm/prompt-ablation/prompt_ablation.ipynb`
-   - `contratico/prompt-ablation/prompt_ablation.ipynb`
-4. **Metrics Extension**
-   - `biomqm/metrics-extension/metrics-extension.ipynb`
-   - `contratico/metrics-extension/metrics-extension.ipynb`
+# Installation
+
+**Prerequisites**
+- Python 3.8+
+- GPU with CUDA support (T4, P100, V100, or A100 recommended)
+- PyTorch with CUDA
+- Hugging Face Account: Access to Qwen2.5-3B-Instruct model
+
+**Setup**
+
+1. Clone the repository and navigate to the project directory:
+```bash
+git clone https://github.com/Simone280802/AskQE_DNLP_2025-2026.git
+cd AskQE_DNLP_2025-2026
+```
+
+2. Install all required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Or install libraries individually:
+```bash
+pip install transformers==4.36.0
+pip install torch==2.1.0
+pip install datasets==2.15.0
+pip install sentence-transformers==2.2.2
+pip install scikit-learn==1.3.2
+pip install pandas==2.1.3
+pip install numpy==1.24.3
+pip install matplotlib==3.8.0
+pip install seaborn==0.13.0
+```
+
+# Getting Started
+
+The project follows a modular pipeline structure. Each extension builds upon the previous one:
+
+### 1. Baseline Evaluation
+Run the baseline AskQE implementation to establish performance benchmarks:
+```bash
+# BioMQM baseline
+jupyter notebook Qwen2.5-3B-Instruct/biomqm/baseline/baseline.ipynb
+
+# ContraTICO baseline
+jupyter notebook Qwen2.5-3B-Instruct/contratico/baseline/baseline.ipynb
+```
+
+**What it does:**
+- Generates questions from source text using Qwen2.5-3B
+- Answers questions on both source and translated text
+- Establishes baseline performance metrics
+
+### 2. NER-Enhanced Question Generation
+Improve question quality by incorporating domain-specific entity recognition:
+```bash
+# BioMQM with NER
+jupyter notebook Qwen2.5-3B-Instruct/biomqm/ner-extension/ner_pipeline.ipynb
+
+# ContraTICO with NER
+jupyter notebook Qwen2.5-3B-Instruct/contratico/ner-extension/ner_pipeline.ipynb
+```
+
+**What it does:**
+- Extracts biomedical entities using `d4data/biomedical-ner-all`
+- Generates entity-aware questions targeting specific concepts
+- Computes entity-focused accuracy metrics
+
+### 3. Prompt Strategy Ablation
+Identify the optimal prompting approach for question answering:
+```bash
+# BioMQM prompt comparison
+jupyter notebook Qwen2.5-3B-Instruct/biomqm/prompt-ablation/prompt_ablation.ipynb
+
+# ContraTICO prompt comparison
+jupyter notebook Qwen2.5-3B-Instruct/contratico/prompt-ablation/prompt_ablation.ipynb
+```
+
+**What it does:**
+- Tests three prompting strategies:
+  - **P1-FewShot**: Few-shot learning with 3 examples
+  - **P2-CoT**: Chain-of-thought reasoning
+  - **P3-Concise**: Minimal instruction prompts
+- Evaluates QA accuracy across strategies
+- Identifies best-performing approach per dataset
+
+### 4. Multi-Metric Evaluation
+Extend evaluation beyond exact match with semantic metrics:
+```bash
+# BioMQM advanced metrics
+jupyter notebook Qwen2.5-3B-Instruct/biomqm/metrics-extension/metrics-extension.ipynb
+
+# ContraTICO advanced metrics
+jupyter notebook Qwen2.5-3B-Instruct/contratico/metrics-extension/metrics-extension.ipynb
+```
+
+**What it does:**
+- Implements NLI-based agreement using BART-MNLI
+- Adds LLM-Judge scoring with Qwen2.5-3B
+- Computes semantic similarity with Sentence-BERT
+- Performs comprehensive error analysis
+
+---
+
+---
+
+# Research Paper
+
+This implementation extends the work described in:
+
+> **"AskQE: Question Answering as Automatic Evaluation for Machine Translation"**  
+> *Dayeon Ki, Kevin Duh, Marine Carpuat* (2025)  
+> *University of Maryland, Johns Hopkins University*
+
+**Our Extensions:**
+> **"Interpretable Quality Assessment for Machine Translation: A Question-Answering Approach to Semantic Consistency Evaluation"**  
+> *Andò S., Baldi F., Bon L., Melchionda L.* (2026)  
+> Politecnico di Torino - Deep Natural Language Processing Project
+
+---
+
+## People
+
+**Authors**  
+- **Simone Andò** - s346523@studenti.polito.it - Politecnico di Torino, Turin, Italy  
+- **Federico Baldi** - s349417@studenti.polito.it - Politecnico di Torino, Turin, Italy  
+- **Laura Bon** - s345052@studenti.polito.it - Politecnico di Torino, Turin, Italy  
+- **Lorenzo Melchionda** - s339805@studenti.polito.it - Politecnico di Torino, Turin, Italy
+
+
+**Original Framework**  
+- [AskQE](https://github.com/dayeonki/askqe) by Kim et al. (2024)
+
+---
 
 Each notebook is self-contained and handles the entire pipeline for its respective section.
