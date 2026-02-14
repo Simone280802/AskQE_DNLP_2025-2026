@@ -29,7 +29,7 @@ Traditional MT metrics (BLEU, F1) produce scalar scores without explaining trans
   - **P2-CoT**: Chain-of-thought reasoning
   - **P3-Concise**: Minimal instructions
 
-### Extension 3: Multi-Metric Evaluation
+### Extension 3: Metrics Extension
 - **Problem**: Binary exact-match misses semantic equivalence
 - **Solution**: Add NLI classifier (BART-MNLI) and LLM-Judge for nuanced agreement scoring
 
@@ -53,7 +53,6 @@ cd AskQE_DNLP_2025-2026
 ```
 Qwen2.5-3B-Instruct/
 ├── requirements.txt
-├── README.md                      ← You are here
 ├── biomqm/
 │   ├── baseline/                  # Baseline QG → QA → Evaluation
 │   ├── ner-extension/             # Extension 1: NER-enhanced pipeline
@@ -166,7 +165,7 @@ jupyter notebook Qwen2.5-3B-Instruct/contratico/prompt-ablation/prompt_ablation.
 - Evaluates QA accuracy across strategies
 - Identifies best-performing approach per dataset
 
-### 4. Multi-Metric Evaluation
+### 4. Metrics Extension
 Extend evaluation beyond exact match with semantic metrics:
 ```bash
 # BioMQM advanced metrics
