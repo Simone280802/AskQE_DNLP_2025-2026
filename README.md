@@ -1,6 +1,4 @@
-# Interpretable Quality Assessment for Machine
-Translation: A Question-Answering Approach to
-Semantic Consistency Evaluation
+# Interpretable Quality Assessment for Machine Translation: A Question-Answering Approach to Semantic Consistency Evaluation
 
 This directory contains three extensions to the [AskQE](https://github.com/dayeonki/askqe) framework, reimplemented using **Qwen2.5-3B-Instruct** as a smaller, open-weight alternative to LLaMA-3 70B.
 
