@@ -1,5 +1,0 @@
-agreed_label,count,nli_avg_confidence,llm_avg_confidence
-entailment,2165,0.9329,0.9906
-neutral,686,0.9147,0.9581
-contradiction,128,0.9267,0.9601
-OVERALL,2979,0.9284,0.9818

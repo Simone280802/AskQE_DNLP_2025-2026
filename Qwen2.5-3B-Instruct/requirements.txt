@@ -1,0 +1,28 @@
+# ============================================
+# Requirements for AskQE Extensions
+# (Qwen2.5-3B-Instruct)
+# ============================================
+# Install: pip install -r requirements.txt
+
+# Core ML
+torch>=2.0.0
+transformers>=4.37.0
+accelerate>=0.25.0
+sentencepiece
+
+# Evaluation - Embeddings
+sentence-transformers>=2.2.0
+
+# Evaluation - String Metrics
+sacrebleu>=2.3.0
+nltk>=3.8.0
+numpy>=1.24.0
+
+# Evaluation - Additional
+bert-score>=0.3.0
+textstat>=0.7.0
+
+# Analysis & Visualization
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
