@@ -1,8 +1,38 @@
 # Interpretable Quality Assessment for Machine Translation: A Question-Answering Approach to Semantic Consistency Evaluation
 
-This directory contains three extensions to the [AskQE](https://github.com/dayeonki/askqe) framework, reimplemented using **Qwen2.5-3B-Instruct** as a smaller, open-weight alternative to LLaMA-3 70B.
+## Overview
 
-All experiments are applied to two datasets: **BioMQM** (naturally occurring MT errors) and **ContraTICO** (synthetic perturbations).
+This repository presents **three novel extensions** to the [AskQE framework](https://github.com/dayeonki/askqe) (Kim et al., 2024), reimplemented using **Qwen2.5-3B-Instruct** as a smaller, open-weight alternative to proprietary LLaMA-3 70B models. 
+
+**Core Idea**: Machine translation quality is assessed by generating questions from source text, answering them on translated text, and measuring semantic consistency through answer agreement.
+
+### Scientific Motivation
+
+Traditional MT evaluation metrics (BLEU, COMET) provide scalar scores but lack interpretability. AskQE introduces **explainability** through natural language questions that pinpoint specific semantic errors. Our work:
+
+1. **Democratizes** the approach with smaller, open models (3B vs 70B parameters)
+2. **Enhances** question generation via biomedical entity recognition
+3. **Evaluates** multiple prompting strategies systematically
+4. **Extends** evaluation metrics beyond exact match to include NLI and LLM-based agreement
+
+## Key Contributions
+
+### Extension 1: NER-Enhanced Question Generation
+- **Problem**: Generic questions may miss domain-specific semantic shifts
+- **Solution**: Extract biomedical entities using `d4data/biomedical-ner-all` and generate entity-focused questions
+
+
+### Extension 2: Prompt Strategy Ablation
+- **Problem**: Unclear which prompting approach yields best QA performance
+- **Solution**: Systematic comparison of three strategies:
+  - **P1-FewShot**: 3-shot examples
+  - **P2-CoT**: Chain-of-thought reasoning
+  - **P3-Concise**: Minimal instructions
+
+### Extension 3: Multi-Metric Evaluation
+- **Problem**: Binary exact-match misses semantic equivalence
+- **Solution**: Add NLI classifier (BART-MNLI) and LLM-Judge for nuanced agreement scoring
+
 
 ## Quick Start
 
@@ -38,13 +68,6 @@ Qwen2.5-3B-Instruct/
     └── metrics-extension/         # Extension 3 (ContraTICO)
 ```
 
-## Extensions Overview
-
-| # | Extension | Goal | Key Idea |
-|---|-----------|------|----------|
-| 1 | **[NER Extension](biomqm/ner-extension/README.md)** | Improve question generation quality | Extract biomedical entities (`d4data/biomedical-ner-all`) and generate entity-aware questions |
-| 2 | **[Prompt Ablation](biomqm/prompt-ablation/README.md)** | Find best prompting strategy | Compare P1-FewShot, P2-CoT, P3-Concise for QA |
-| 3 | **[Metrics Extension](biomqm/metrics-extension/README.md)** | Richer evaluation metrics | Add NLI classifier + LLM-Judge for agreement analysis |
 
 ## Models Used
 
