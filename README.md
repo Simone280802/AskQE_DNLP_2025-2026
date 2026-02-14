@@ -48,7 +48,7 @@ cd AskQE_DNLP_2025-2026
 > **GPU required.** All notebooks are designed for Kaggle (T4/P100) or Google Colab. Each notebook auto-detects the environment.
 
 ## Directory Structure
-> 📂 **[Browse the full directory structure here](Qwen2.5-3B-Instruct/)**
+> **[Our project folder](Qwen2.5-3B-Instruct/)**
 
 ```
 Qwen2.5-3B-Instruct/
