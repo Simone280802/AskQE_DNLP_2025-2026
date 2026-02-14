@@ -46,9 +46,6 @@ metrics-extension/
 └── results/
     ├── nli/{lang}-nli.jsonl           # NLI per-language output
     ├── llm-judge/{lang}-llm-judge.jsonl # LLM Judge output
-    ├── AGREEMENT_RATE-NLI_LLM/        # Agreement analysis
-    ├── CONFIDENCE - NLI_LLM/          # Confidence analysis
-    └── CONFUSION_MATRIX - NLI_LLM/    # Confusion matrices
 ```
 
 ## Pipeline Steps
