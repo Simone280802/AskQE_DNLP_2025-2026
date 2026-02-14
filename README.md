@@ -8,7 +8,7 @@ This repository presents **three novel extensions** to the [AskQE framework](htt
 
 ### Scientific Motivation
 
-Traditional MT evaluation metrics (BLEU, COMET) provide scalar scores but lack interpretability. AskQE introduces **explainability** through natural language questions that pinpoint specific semantic errors. Our work:
+Traditional MT metrics (BLEU, F1) produce scalar scores without explaining translation errors. AskQE introduces explainability by generating natural language questions that pinpoint specific semantic inconsistencies between source and target texts. Our work:
 
 1. **Democratizes** the approach with smaller, open models (3B vs 70B parameters)
 2. **Enhances** question generation via biomedical entity recognition
